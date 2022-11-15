@@ -2,7 +2,7 @@
         <form @submit.prevent>
             <h4>Создание поста</h4>
             <MyInput 
-                v-model="post.title" 
+                v-model.trim="post.title" 
                 type="text" 
                 placeholder="Название"
             />
