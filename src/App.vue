@@ -5,6 +5,7 @@
         />
         <PostListVue 
             :posts="posts"
+            @remove="removePost"
         />
     </div>
 </template>
@@ -31,6 +32,9 @@ export default {
         createPost(post) {
             this.posts.push(post)
         },
+        removePost(post) {
+            this.posts = this.posts.filter(i => i.id !== post.id)
+        }
     }
 }
 </script>

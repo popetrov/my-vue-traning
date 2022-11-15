@@ -1,69 +1,61 @@
 <template>
         <form @submit.prevent>
             <h4>Создание поста</h4>
-            <input 
+            <MyInput 
                 v-model="post.title" 
-                class="input" type="text" 
+                type="text" 
                 placeholder="Название"
-            >
-            <input 
+            />
+            <MyInput 
                 v-model="post.body"
-                class="input" 
                 type="text" 
                 placeholder="Описание"
-            >
-            <button 
-                class="btn"
+            />
+            <MyButton 
+                class="btn_create"
                 @click="createPost" 
             >
                 Опубликовать пост
-            </button>
+            </MyButton>
         </form>
 </template>
 
 <script>
+import MyInput from './UI/MyInput.vue'
+
+
+
     export default {
-        data() {
-            return {
-                post: {
-                    title: '',
-                    body: ''
-                }
+    data() {
+        return {
+            post: {
+                title: "",
+                body: ""
             }
-        },
-        methods: {
-            createPost() {
-                this.post.id = Date.now()
-                this.$emit('create', this.post)
-                this.post = {
-                    title: '',
-                    body: ''
-                }
-            }
+        };
+    },
+    methods: {
+        createPost() {
+            this.post.id = Date.now();
+            this.$emit("create", this.post);
+            this.post = {
+                title: "",
+                body: ""
+            };
         }
-    }
+    },
+    components: { MyInput }
+}
 </script>
 
 <style scoped>
-    .input {
-        width: 100%;
-        border: 1px solid teal;
-        padding: 10px 15px;
-        margin-top: 10px;
-    }
-
-
     form {
         display: flex;
         flex-direction: column;
     }
 
-    .btn {
+    .btn_create {
         margin-top: 10px;
-        align-self: flex-end;
-        padding: 10px 15px;
-        background: none;
-        color: teal;
-        border: 1px solid teal;
     }
+
 </style>
