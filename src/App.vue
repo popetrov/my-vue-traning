@@ -3,16 +3,25 @@
         <h1>
             Страница с постами
         </h1>
-        <MyButton class="btn_create" @click="showDialog">
-            Создать пост
-        </MyButton>
+        <div class="app_btns">
+            <MyButton 
+                class="btn_create" 
+                @click="showDialog"
+            >
+                Создать пост
+            </MyButton>
+            <MySelect
+                v-model="selectedSort"
+                :options="sortOptions"
+            />
+        </div>
         <MyDialog v-model:show="dialogVisible">
             <PostFormVue
                 @create="createPost"
             />
         </MyDialog>
         <PostListVue 
-            :posts="posts"
+            :posts="sortedPosts"
             @remove="removePost"
             v-if="!isPostLoading"
         />
@@ -26,6 +35,7 @@ import PostFormVue from './components/PostForm.vue'
 import PostListVue from './components/PostList.vue'
 import MyButton from './components/UI/MyButton.vue'
 import MyDialog from './components/UI/MyDialog.vue'
+import MySelect from './components/UI/MySelect.vue'
 import axios from "axios"
 
 export default {
@@ -33,13 +43,19 @@ export default {
     PostListVue,
     PostFormVue,
     MyDialog,
-    MyButton
+    MyButton,
+    MySelect
 },
     data () {
         return {
             posts: [],
             dialogVisible: false,
-            isPostLoading: false
+            isPostLoading: false,
+            selectedSort: '',
+            sortOptions: [
+                {value: 'title', name: 'По названию'},
+                {value: 'body', name: 'По содержимому'}
+            ]
         }
     },
     methods: {
@@ -67,7 +83,15 @@ export default {
     },
     mounted() {
             this.fetchPosts()
+        },
+    computed: {
+        sortedPosts() {
+            return [...this.posts].sort((post1, post2) => (post1[this.selectedSort])?.localeCompare(post2[this.selectedSort]))
         }
+    },
+    watch: {
+
+    }
 }
 </script>
 
@@ -83,7 +107,10 @@ export default {
         padding: 20px;
     }
 
-    .btn_create {
-        margin-top: 10px;
+
+    .app_btns {
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
     }
 </style>
